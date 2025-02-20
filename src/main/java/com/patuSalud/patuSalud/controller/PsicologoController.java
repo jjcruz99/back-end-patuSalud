@@ -51,5 +51,4 @@ public class PsicologoController {
         return "El Psicologo se elimino con exito";
     }
 
-
 }
