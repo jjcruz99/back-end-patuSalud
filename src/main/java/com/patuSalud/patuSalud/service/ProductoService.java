@@ -25,8 +25,13 @@ public class ProductoService implements IproductoService {
     }
 
     @Override
-    public void eliminarProducto(Producto eliminarProducto) {
-      productoRepository.deleteById(eliminarProducto.getId_producto());
+    public void eliminarProducto(Long id) {
+        if(productoRepository.existsById(id)){
+            productoRepository.deleteById(id);
+        }
+        else {
+            System.out.println("No existe productos con ese Id");
+        }
     }
 
     @Override

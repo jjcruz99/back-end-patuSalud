@@ -9,7 +9,7 @@ public interface IpsicologoService {
 
     Psicologo crearPsicologo(Psicologo psicologo);
 
-    Psicologo actualizarPsicologo(Long id, Psicologo psicologoActualizado);
+    void actualizarPsicologo(Long id, Psicologo psicologoActualizado);
 
     void eliminarPsicologo(Long id);
 }
