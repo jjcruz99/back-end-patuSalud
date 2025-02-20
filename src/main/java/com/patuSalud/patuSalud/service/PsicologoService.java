@@ -4,6 +4,7 @@ import com.patuSalud.patuSalud.repository.IpsicologoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,10 +15,16 @@ public class PsicologoService implements IpsicologoService  {
     @Autowired
     private IpsicologoRepository psicologoRepository;
 
+    @Override
+    public List<Psicologo> getPsicologo() {
+        List<Psicologo> listaPsicologos = psicologoRepository.findAll();
+        return listaPsicologos;
+    }
+
     ///Metdo para obtener psicologoo por id
     @Override
-    public Optional<Psicologo> obtenerPsicologoPorId(Long id) {
-        return psicologoRepository.findById(id);
+    public Psicologo buscarPsicologoId(Long id) {
+        return psicologoRepository.findById(id).orElse(null);
     }
 
     ///Metdo para crear psicologo
