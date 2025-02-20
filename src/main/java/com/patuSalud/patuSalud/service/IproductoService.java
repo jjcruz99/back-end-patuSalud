@@ -13,7 +13,7 @@ public interface IproductoService {
     public void agregarProducto (Producto nuevoProducto);
 
     //metodo eliminar producto
-    public void eliminarProducto(Producto eliminarProducto);
+    public void eliminarProducto(Long Id);
 
     //metodo buscar producto
     public Producto buscarProductoId (Long id);

@@ -29,12 +29,21 @@ public class PsicologoService implements IpsicologoService  {
     ///Metdo para actualizar información
 
     @Override
-    public Psicologo actualizarPsicologo(Long id, Psicologo psicologoActualizado) {
-        if (psicologoRepository.existsById(id)) {
-            psicologoActualizado.setId_psicologo(id);
-            return psicologoRepository.save(psicologoActualizado);
+    public void actualizarPsicologo(Long id, Psicologo psicologoActualizado) {
+        Psicologo existePsicologo = psicologoRepository.findById(id).orElse(null);
+        if (existePsicologo != null) {
+             existePsicologo.setNombre(psicologoActualizado.getNombre());
+             existePsicologo.setApellido(psicologoActualizado.getApellido());
+             existePsicologo.setCelular(psicologoActualizado.getCelular());
+             existePsicologo.setCiudad(psicologoActualizado.getCiudad());
+             existePsicologo.setIdentificacion(psicologoActualizado.getIdentificacion());
+             existePsicologo.setCorreo(psicologoActualizado.getCorreo());
+             existePsicologo.setObservacion(psicologoActualizado.getObservacion());
+             psicologoRepository.save(existePsicologo);
+        }else{
+            System.out.println("No existe psicologo con ese Id");
         }
-        return null; // O lanza una excepción
+
     }
     ///Metdo para eliminar psicologo
     @Override
