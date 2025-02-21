@@ -1,11 +1,9 @@
 package com.patuSalud.patuSalud.model;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import java.time.LocalDate;
 import java.util.Date;
+
 
 @Entity
 public class Pedido {
@@ -14,20 +12,27 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
 
     private Long id_pedido;
-    private Long id_usuario_fk;
-    private Long id_estado_pedido_fk;
+    private double cantidad;
     private double precio_total;
-    private Date fecha_pedido;
+    private LocalDate fecha_pedido;
+
+    @ManyToOne
+    private Usuario usuario;
+
+    @ManyToOne
+    private Producto producto;
+
 
     public Pedido() {
     }
 
-    public Pedido(Long id_pedido, Long id_usuario_fk, Long id_estado_pedido_fk, double precio_total, Date fecha_pedido) {
+    public Pedido(Long id_pedido, double cantidad, double precio_total, LocalDate fecha_pedido, Usuario usuario, Producto producto) {
         this.id_pedido = id_pedido;
-        this.id_usuario_fk = id_usuario_fk;
-        this.id_estado_pedido_fk = id_estado_pedido_fk;
+        this.cantidad = cantidad;
         this.precio_total = precio_total;
         this.fecha_pedido = fecha_pedido;
+        this.usuario = usuario;
+        this.producto = producto;
     }
 
     public Long getId_pedido() {
@@ -38,20 +43,28 @@ public class Pedido {
         this.id_pedido = id_pedido;
     }
 
-    public Long getId_usuario_fk() {
-        return id_usuario_fk;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setId_usuario_fk(Long id_usuario_fk) {
-        this.id_usuario_fk = id_usuario_fk;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
-    public Long getId_estado_pedido_fk() {
-        return id_estado_pedido_fk;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setId_estado_pedido_fk(Long id_estado_pedido_fk) {
-        this.id_estado_pedido_fk = id_estado_pedido_fk;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public LocalDate getFecha_pedido() {
+        return fecha_pedido;
+    }
+
+    public void setFecha_pedido(LocalDate fecha_pedido) {
+        this.fecha_pedido = fecha_pedido;
     }
 
     public double getPrecio_total() {
@@ -62,11 +75,12 @@ public class Pedido {
         this.precio_total = precio_total;
     }
 
-    public Date getFecha_pedido() {
-        return fecha_pedido;
+    public double getCantidad() {
+        return cantidad;
     }
 
-    public void setFecha_pedido(Date fecha_pedido) {
-        this.fecha_pedido = fecha_pedido;
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
     }
 }
+
