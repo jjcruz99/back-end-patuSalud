@@ -47,7 +47,7 @@ public class PedidoService implements IpedidoService {
     @Override
     public void deletepedido(Long id) {
         if (pedidoRepository.existsById(id)) {
-            pedidoRepository.deleteById(id); // Delete the Pedido by ID
+            pedidoRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("Pedido not found with ID: " + id);
         }
@@ -61,17 +61,17 @@ public class PedidoService implements IpedidoService {
 
     @Override
     public void updatePedido(Long id, Pedido pedidoActualizado) {
-        actualizarPedido(id, pedidoActualizado); // Reuse the actualizarPedido method
+        actualizarPedido(id, pedidoActualizado);
     }
 
     @Override
     public void deletePedido(Long id) {
-        deletepedido(id); // Reuse the deletepedido method
+        deletepedido(id);
     }
 
     @Override
     public Pedido buscarPedidoId(Long id) {
-        return buscarpedidoId(id); // Reuse the buscarpedidoId method
+        return buscarpedidoId(id);
     }
 
     @Override
