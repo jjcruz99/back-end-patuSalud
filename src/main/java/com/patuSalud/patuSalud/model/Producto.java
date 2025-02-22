@@ -1,9 +1,8 @@
 package com.patuSalud.patuSalud.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Producto {
@@ -18,6 +17,9 @@ public class Producto {
     private String imagen_url;
     private String descripcion;
     private int cantidad_disponible;
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<Pedido> producto;
 
     public Producto() {
 
