@@ -2,6 +2,7 @@ package com.patuSalud.patuSalud.controller;
 import com.patuSalud.patuSalud.model.Pedido;
 import com.patuSalud.patuSalud.service.IpedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,16 +21,22 @@ public class PedidoController {
 
     // Agregar un nuevo pedido
     @PostMapping("/agregar/pedido")
-    public String agregarPedido(@RequestBody Pedido pedidoNuevo) {
+    public ResponseEntity<String> agregarPedido(@RequestBody Pedido pedidoNuevo) {
         pedidoService.savepedido(pedidoNuevo);
-        return "Pedido agregado exitosamente";
+        return ResponseEntity.ok("Se agrego un pedido correctamente");
+    }
+
+    // Obtener todos los pedidos de un usuario
+    @GetMapping("/traer/pedido/{id}")
+    public List<Pedido> filtrarPedioIdUsuario(@PathVariable Long id) {
+        return pedidoService.filtrarPedioIdUsuario(id);
     }
 
     // Actualizar un pedido existente
     @PutMapping("/actualizar/pedido/{id}")
-    public String actualizarPedido(@PathVariable Long id, @RequestBody Pedido pedidoActualizado) {
-        pedidoService.updatepedido(id, pedidoActualizado);
-        return "Pedido actualizado exitosamente";
+    public ResponseEntity<String> actualizarPedido(@PathVariable Long id, @RequestBody Pedido pedidoActualizado) {
+        pedidoService.actualizarPedido(id, pedidoActualizado);
+        return ResponseEntity.ok("Se actualizo un pedido correctamente");
     }
 
     // Eliminar un pedido por ID

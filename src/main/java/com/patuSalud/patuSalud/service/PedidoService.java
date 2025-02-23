@@ -1,11 +1,14 @@
 package com.patuSalud.patuSalud.service;
 import com.patuSalud.patuSalud.model.Pedido;
-import com.patuSalud.patuSalud.model.Producto;
+import com.patuSalud.patuSalud.model.Usuario;
 import com.patuSalud.patuSalud.repository.IpedidoRepository; // Ensure you have this import
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PedidoService implements IpedidoService {
@@ -23,11 +26,6 @@ public class PedidoService implements IpedidoService {
         return pedidoRepository.save(pedidoNuevo); // Save the new Pedido to the database
     }
 
-    @Override
-    public void agregarProducto(Producto nuevoProducto) {
-        // Assuming you have a repository for Producto, you should save it here
-        // productoRepository.save(nuevoProducto);
-    }
 
     @Override
     public void actualizarPedido(Long id, Pedido pedidoActualizado) {
@@ -60,28 +58,18 @@ public class PedidoService implements IpedidoService {
     }
 
     @Override
-    public void updatePedido(Long id, Pedido pedidoActualizado) {
-        actualizarPedido(id, pedidoActualizado);
+    public List<Pedido> filtrarPedioIdUsuario(Long idUsuario) {
+        List<Pedido> totalPedidos =  pedidoRepository.findAll();
+        List<Pedido> pedidosUsuario = new ArrayList<>();
+            ///buscar pedidos asociados a un usuario
+            for(Pedido pedidoActual : totalPedidos){
+                Usuario usuarioPedido = pedidoActual.getUsuario();
+                if (Objects.equals(usuarioPedido.getId_usuario(), idUsuario)){
+                    pedidosUsuario.add(pedidoActual);
+                }
+            }
+        return pedidosUsuario;
     }
 
-    @Override
-    public void deletePedido(Long id) {
-        deletepedido(id);
-    }
 
-    @Override
-    public Pedido buscarPedidoId(Long id) {
-        return buscarpedidoId(id);
-    }
-
-    @Override
-    public List<Pedido> getpedido() {
-        return List.of();
-    }
-
-    @Override
-    public void updatepedido(Long id, Pedido pedidoActualizado) {
-        actualizarPedido(id, pedidoActualizado);
-
-    }
 }
