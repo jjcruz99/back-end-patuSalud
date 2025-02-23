@@ -41,9 +41,9 @@ public class PedidoController {
 
     // Eliminar un pedido por ID
     @DeleteMapping("/eliminar/pedido/{id}")
-    public String eliminarPedido(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarPedido(@PathVariable Long id) {
         pedidoService.deletepedido(id);
-        return "Pedido eliminado exitosamente";
+        return ResponseEntity.ok("Se elimino el pedido correctamente");
     }
 
     // Buscar un pedido por ID
