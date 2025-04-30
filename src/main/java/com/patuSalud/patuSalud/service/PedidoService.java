@@ -1,54 +1,75 @@
 package com.patuSalud.patuSalud.service;
-
 import com.patuSalud.patuSalud.model.Pedido;
-import com.patuSalud.patuSalud.repository.IpedidoRepository;
+import com.patuSalud.patuSalud.model.Usuario;
+import com.patuSalud.patuSalud.repository.IpedidoRepository; // Ensure you have this import
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PedidoService implements IpedidoService {
 
-    private IpedidoRepository pedidoRepository;
+    @Autowired
+    private IpedidoRepository pedidoRepository; // Inject the repository
 
     @Override
     public List<Pedido> obtenerTodosPedidos() {
-        return pedidoRepository.findAll();
+        return pedidoRepository.findAll(); // Retrieve all Pedidos from the database
     }
 
     @Override
-    public void agregarPedido(Pedido pedidoNuevo) {
-       pedidoRepository.save(pedidoNuevo);
+    public Pedido savepedido(Pedido pedidoNuevo) {
+        return pedidoRepository.save(pedidoNuevo); // Save the new Pedido to the database
     }
+
 
     @Override
     public void actualizarPedido(Long id, Pedido pedidoActualizado) {
+        Pedido existingPedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido not found with ID: " + id));
 
-        Pedido existePedido = pedidoRepository.findById(id).orElse(null);
-        if (existePedido != null ){
-            existePedido.setFecha_pedido(pedidoActualizado.getFecha_pedido());
-            existePedido.setPrecio_total(pedidoActualizado.getPrecio_total());
-            existePedido.setId_estado_pedido_fk(pedidoActualizado.getId_estado_pedido_fk());
-            existePedido.setId_usuario_fk(pedidoActualizado.getId_usuario_fk());
+        // Update fields from the existing Pedido
+        existingPedido.setCantidad(pedidoActualizado.getCantidad());
+        existingPedido.setPrecio_total(pedidoActualizado.getPrecio_total());
+        existingPedido.setFecha_pedido(pedidoActualizado.getFecha_pedido());
+        existingPedido.setUsuario(pedidoActualizado.getUsuario());
+        existingPedido.setProducto(pedidoActualizado.getProducto());
 
-            pedidoRepository.save(existePedido);
-        }
-        else {
-            System.out.println("No existe el pedido");
-        }
+        pedidoRepository.save(existingPedido); // Save the updated Pedido
     }
 
     @Override
-    public void eliminarPedido(Long id) {
-        if(pedidoRepository.existsById(id)){
+    public void deletepedido(Long id) {
+        if (pedidoRepository.existsById(id)) {
             pedidoRepository.deleteById(id);
-        }else{
-            System.out.println("No se encuentran pedidos con ese Id");
+        } else {
+            throw new EntityNotFoundException("Pedido not found with ID: " + id);
         }
     }
 
     @Override
-    public Pedido buscarPedidoId(Long id) {
-        return pedidoRepository.findById(id).orElse(null);
+    public Pedido buscarpedidoId(Long id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido not found with ID: " + id));
     }
+
+    @Override
+    public List<Pedido> filtrarPedioIdUsuario(Long idUsuario) {
+        List<Pedido> totalPedidos =  pedidoRepository.findAll();
+        List<Pedido> pedidosUsuario = new ArrayList<>();
+            ///buscar pedidos asociados a un usuario
+            for(Pedido pedidoActual : totalPedidos){
+                Usuario usuarioPedido = pedidoActual.getUsuario();
+                if (Objects.equals(usuarioPedido.getId_usuario(), idUsuario)){
+                    pedidosUsuario.add(pedidoActual);
+                }
+            }
+        return pedidosUsuario;
+    }
+
+
 }

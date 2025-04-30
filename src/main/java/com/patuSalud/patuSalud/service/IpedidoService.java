@@ -1,20 +1,20 @@
 package com.patuSalud.patuSalud.service;
-
 import com.patuSalud.patuSalud.model.Pedido;
-
+import com.patuSalud.patuSalud.model.Producto;
 import java.util.List;
 
 public interface IpedidoService {
 
-    public List<Pedido> obtenerTodosPedidos();
 
-    public void agregarPedido( Pedido pedidoNuevo);
+    List<Pedido> obtenerTodosPedidos(); // Retrieve all Pedidos
 
-    public void actualizarPedido(Long id, Pedido pedidoActualizado);
+    Pedido savepedido(Pedido pedidoNuevo); // Save a new Pedido
 
-    public void eliminarPedido(Long id);
+    void actualizarPedido(Long id, Pedido pedidoActualizado); // Update an existing Pedido
 
-    public Pedido buscarPedidoId (Long id);
+    void deletepedido(Long id); // Delete a Pedido by ID
 
+    Pedido buscarpedidoId(Long id); // Find a Pedido by ID
 
+   public List<Pedido> filtrarPedioIdUsuario(Long idUsuario);
 }
